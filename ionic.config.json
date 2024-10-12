@@ -1,0 +1,11 @@
+{
+  "name": "dapi",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "ssl": {
+    "key": "E:\\ssl\\key.pem",
+    "cert": "E:\\ssl\\ssl\\cert.pem"
+  }
+}
