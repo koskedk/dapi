@@ -1,6 +1,6 @@
 import {Component, NgZone, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from "@angular/router";
-import {App} from "@capacitor/app";
+import {App, URLOpenListenerEvent} from "@capacitor/app";
 import {Platform} from "@ionic/angular";
 
 
@@ -10,38 +10,29 @@ import {Platform} from "@ionic/angular";
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
 
-  constructor(private platform: Platform,private router:Router) {
+  constructor(private router: Router, private zone: NgZone) {
     this.initializeApp();
   }
 
   initializeApp() {
-    this.platform.ready().then(() => {
-      this.setupDeepLinkListener();
-    });
-  }
-
-  setupDeepLinkListener() {
-    App.addListener('appUrlOpen', (data: any) => {
-      console.log('App opened with URL:', data.url);
-      if (data && data.url) {
-        // Parse the URL and navigate or handle accordingly
-        const url = data.url;
-        console.log('Handling deep link:', url);
-
-        if (url.startsWith('dapi://localhost')) {
-          const path = url.split('localhost')[1];
-          // Use Angular Router to navigate within the app
-          console.log('Navigating to:', path);
-          this.router.navigate(['home']);
+    App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
+      this.zone.run(() => {
+        // Example url: dapi://localhost/tabs/tab2
+        // slug = /tabs/tab2
+        const slug = event.url.split("localhost").pop();
+        if (slug) {
+          this.router.navigateByUrl(slug);
         }
-      }
-    });
-  }
-
-  ngOnInit() {
-    // Ensure the listener is active after initialization
-    this.setupDeepLinkListener();
+        // If no match, do nothing - let regular routing
+        // logic take over
+      });
+    }).then(() => {
+      console.log('Listener for appUrlOpen added successfully.');
+    })
+      .catch((error) => {
+        console.error('Error adding listener for appUrlOpen:', error);
+      });;
   }
 }

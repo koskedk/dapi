@@ -9,7 +9,7 @@ function getInitOpts():KeycloakInitOptions {
     flow: 'standard',
   };
   if (environment.production) {
-    opts.redirectUri = 'dapi://localhost';
+    opts.redirectUri = 'dapi://localhost/home';
   }
   return opts;
 }
