@@ -5,8 +5,7 @@ const config: CapacitorConfig = {
   appName: 'dapi',
   webDir: 'www',
   server: {
-    androidScheme: 'app',        // For Android (app://localhost)
-    iosScheme: 'capacitor',      // For iOS (capacitor://localhost)
+    androidScheme: 'dapi'    // For iOS (capacitor://localhost)
   },
 };
 

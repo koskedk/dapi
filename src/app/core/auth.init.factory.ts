@@ -9,7 +9,7 @@ function getInitOpts():KeycloakInitOptions {
     flow: 'standard',
   };
   if (environment.production) {
-    opts.redirectUri = 'app://localhost/callback';
+    opts.redirectUri = 'dapi://localhost';
   }
   return opts;
 }
@@ -22,7 +22,7 @@ export function authInitializer(keycloak: KeycloakService) {
         realm: environment.authRealm,
         clientId: environment.authClientId
       },
-      loadUserProfileAtStartUp: true,
+      // loadUserProfileAtStartUp: true,
       enableBearerInterceptor: true,
       initOptions: getInitOpts()
     }).then((authenticated) => {

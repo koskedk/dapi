@@ -6,7 +6,7 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import {KeycloakAngularModule, KeycloakService} from "keycloak-angular";
+import {KeycloakAngularModule, KeycloakService} from 'keycloak-angular';
 import {authInitializer} from "./core/auth.init.factory";
 
 @NgModule({
