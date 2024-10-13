@@ -1,17 +1,20 @@
-import {KeycloakService} from "keycloak-angular";
-import {environment} from '../../environments/environment';
-import {KeycloakInitOptions} from "keycloak-js";
+import { KeycloakService } from 'keycloak-angular';
+import { environment } from '../../environments/environment';
+import { KeycloakInitOptions } from 'keycloak-js';
 
-function getInitOpts():KeycloakInitOptions {
-  let opts: KeycloakInitOptions = {
-    enableLogging: true,
-    onLoad: 'login-required',
+function getKeycloakInitOptions(): KeycloakInitOptions {
+  const redirectUri = environment.production
+    ? 'dapi://localhost/home'
+    : 'https://localhost:8100';
+
+  return {
+    checkLoginIframe: false,
+    enableLogging: !environment.production, // Only enable logging in non-production
+    onLoad: 'check-sso',
     flow: 'standard',
+    redirectUri: redirectUri,
+    adapter: 'cordova',
   };
-  if (environment.production) {
-    opts.redirectUri = 'dapi://localhost/home';
-  }
-  return opts;
 }
 
 export function authInitializer(keycloak: KeycloakService) {
@@ -20,15 +23,16 @@ export function authInitializer(keycloak: KeycloakService) {
       config: {
         url: environment.authUrl,
         realm: environment.authRealm,
-        clientId: environment.authClientId
+        clientId: environment.authClientId,
       },
-      // loadUserProfileAtStartUp: true,
+      loadUserProfileAtStartUp: true,
       enableBearerInterceptor: true,
-      initOptions: getInitOpts()
-    }).then((authenticated) => {
-      console.log('Auth is initialized:', authenticated);
+      initOptions: getKeycloakInitOptions(),
     })
-      .catch((error) => {
-        console.error('Error initializing Auth:', error);
+      .then(authenticated => {
+        console.log('Keycloak Authentication Initialized:', authenticated);
+      })
+      .catch(error => {
+        console.error('Failed to initialize Keycloak authentication:', error);
       });
 }
