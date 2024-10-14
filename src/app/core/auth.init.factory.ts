@@ -4,16 +4,16 @@ import { KeycloakInitOptions } from 'keycloak-js';
 
 function getKeycloakInitOptions(): KeycloakInitOptions {
   const redirectUri = environment.production
-    ? 'dapi://localhost/home'
+    ? 'https://dapi.livesync.co.ke/callback'
     : 'https://localhost:8100';
 
   return {
     checkLoginIframe: false,
     enableLogging: !environment.production, // Only enable logging in non-production
-    onLoad: 'check-sso',
+    onLoad: 'login-required',
     flow: 'standard',
     redirectUri: redirectUri,
-    adapter: 'cordova',
+    // adapter: 'cordova',
   };
 }
 

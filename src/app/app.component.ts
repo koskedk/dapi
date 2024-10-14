@@ -1,9 +1,7 @@
-import {Component, NgZone, OnInit} from '@angular/core';
-import {NavigationEnd, Router} from "@angular/router";
-import {App, URLOpenListenerEvent} from "@capacitor/app";
+import {Component, NgZone} from '@angular/core';
+import {Router} from "@angular/router";
 import {Platform} from "@ionic/angular";
-
-
+import {App, URLOpenListenerEvent} from "@capacitor/app";
 
 @Component({
   selector: 'app-root',
@@ -12,33 +10,16 @@ import {Platform} from "@ionic/angular";
 })
 export class AppComponent {
 
-  constructor(private router: Router, private zone: NgZone, public platform: Platform) {
+  constructor(private router: Router) {
     this.initializeApp();
   }
 
   initializeApp() {
-
-    this.platform.ready().then(() => {
-      console.log('Platform is ready');
-      App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
-        this.zone.run(() => {
-          console.log('URL>>>',event.url);
-          // Example url: dapi://localhost/tabs/tab2
-          // slug = /tabs/tab2
-          // const slug = event.url.split("localhost").pop();
-          // if (slug) {
-          //   this.router.navigateByUrl(slug);
-          // }
-          // If no match, do nothing - let regular routing
-          // logic take over
-        });
-      }).then(() => {
-        console.log('Listener for appUrlOpen added successfully.');
-      })
-        .catch((error) => {
-          console.error('Error adding listener for appUrlOpen:', error);
-        });
-    })
-
+    App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
+        const url = event.url;
+        if (url && url.includes('/callback')) {
+            this.router.navigate(['/callback']);
+        }
+    });
   }
 }
