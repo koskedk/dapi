@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
+import {KeycloakService} from 'keycloak-angular';
+import {ActivatedRoute, Router} from '@angular/router';
+import {KeycloakAngularCapacitorService} from '../keycloak-angular-capacitor/keycloak-angular-capacitor.service';
 
 @Component({
   selector: 'app-callback',
@@ -7,15 +9,15 @@ import {ActivatedRoute, Router} from "@angular/router";
   styleUrls: ['./callback.page.scss'],
 })
 export class CallbackPage implements OnInit {
-  code = '';
-  state = '';
-  constructor(private activatedRoute: ActivatedRoute, private router: Router) { }
 
-  ngOnInit() {
-    this.activatedRoute.queryParams.subscribe(params => {
-      this.code = params['code'];
-      this.state = params['state'];
+  constructor(private authService: KeycloakAngularCapacitorService,private router: Router) { }
+
+  ngOnInit(): void {
+    let prof=this.authService.loadUserProfile().then((u)=>{
+      if(u && u.id){
+        this.router.navigateByUrl('/home');
+      }
+      this.router.navigateByUrl('/login');
     });
-  }
-
+    }
 }

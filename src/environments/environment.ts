@@ -7,7 +7,8 @@ export const environment = {
   apiUrl: 'https://dapi.livesync.co.ke',
   authClientId: 'dapi.mobile.dev',
   authRealm: 'dapi',
-  authUrl: 'https://auth.livesync.co.ke'
+  authUrl: 'http://localhost:8080',
+  redirectUri:'http://localhost:8100/callback'
 };
 
 /*

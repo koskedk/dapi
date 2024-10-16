@@ -1,21 +1,6 @@
 import { KeycloakService } from 'keycloak-angular';
 import { environment } from '../../environments/environment';
-import { KeycloakInitOptions } from 'keycloak-js';
-
-function getKeycloakInitOptions(): KeycloakInitOptions {
-  const redirectUri = environment.production
-    ? 'https://dapi.livesync.co.ke/callback'
-    : 'https://localhost:8100';
-
-  return {
-    checkLoginIframe: false,
-    enableLogging: !environment.production, // Only enable logging in non-production
-    onLoad: 'login-required',
-    flow: 'standard',
-    redirectUri: redirectUri,
-    // adapter: 'cordova',
-  };
-}
+import {getKeycloakInitOptions} from './kc.config';
 
 export function authInitializer(keycloak: KeycloakService) {
   return () =>
@@ -33,6 +18,8 @@ export function authInitializer(keycloak: KeycloakService) {
         console.log('Keycloak Authentication Initialized:', authenticated);
       })
       .catch(error => {
-        console.error('Failed to initialize Keycloak authentication:', error);
+        console.error('Failed to initialize Keycloak authentication: ',error);
       });
+
+
 }

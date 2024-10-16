@@ -8,15 +8,27 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import {KeycloakAngularModule, KeycloakService} from "keycloak-angular";
 import {authInitializer} from "./core/auth.init.factory";
-import {HashLocationStrategy, LocationStrategy} from "@angular/common";
+import {KeycloakAngularCapacitorModule} from './keycloak-angular-capacitor/keycloak-angular-capacitor.module';
+import {KEYCLOAK_CONFIG} from './keycloak-angular-capacitor/keycloak.tokens';
+import {environment} from '../environments/environment';
+
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, IonicModule.forRoot(),KeycloakAngularModule, AppRoutingModule],
+  imports: [BrowserModule, IonicModule.forRoot(), KeycloakAngularCapacitorModule, AppRoutingModule],
   providers: [
-    { provide: APP_INITIALIZER, useFactory: authInitializer, multi: true, deps: [KeycloakService]},
-    { provide: LocationStrategy, useClass: HashLocationStrategy },
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    {
+      provide: KEYCLOAK_CONFIG,
+      useValue: {
+        url: environment.authUrl,
+        realm: environment.authRealm,
+        clientId: environment.authClientId,
+        redirectUri: environment.redirectUri,
+        redirectUriWeb: environment.redirectUri,
+      }
+    },
+    // {provide: APP_INITIALIZER, useFactory: authInitializer, multi: true, deps: [KeycloakService]},
+    {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
   ],
   bootstrap: [AppComponent],
 })
