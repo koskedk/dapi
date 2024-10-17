@@ -5,7 +5,7 @@ const config: CapacitorConfig = {
   appName: 'dapi',
   webDir: 'www',
   server: {
-    androidScheme: 'https',
+    androidScheme: 'app',
     hostname: 'dapi.livesync.co.ke',
   },
 };

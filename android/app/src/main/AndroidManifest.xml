@@ -32,7 +32,7 @@
           android:host="dapi.livesync.co.ke"
           android:pathPrefix="/callback"/>
         <data
-          android:scheme="dapi"
+          android:scheme="app"
           android:host="dapi.livesync.co.ke"
           android:pathPrefix="/callback"/>
       </intent-filter>

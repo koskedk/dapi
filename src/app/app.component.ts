@@ -36,8 +36,8 @@ export class AppComponent {
           console.log('path:::', appPath);
           const code=getUrlParameter('code',event.url);
           console.log('code::: ', code);
-          if (appPath?.includes('callback')) {
-            console.log('nav >>> ', appPath);
+          if (event.url.startsWith('app://') && appPath?.includes('callback')) {
+            console.log('app:// ', appPath);
 
             if (code) {
               this.kc.login({ code }).then(() => {

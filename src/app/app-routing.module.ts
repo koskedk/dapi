@@ -14,10 +14,7 @@ const routes: Routes = [
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
   },
   { path: 'callback', redirectTo: 'home', pathMatch: 'full' },
-  // {
-  //   path: 'callback',
-  //   loadChildren: () => import('./callback/callback.module').then( m => m.CallbackPageModule)
-  // }
+  { path: '**', redirectTo: 'home', pathMatch: 'full' },
 ];
 
 @NgModule({

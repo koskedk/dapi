@@ -46,7 +46,8 @@ export class KeycloakAngularCapacitorService {
   }
 
   async init(): Promise<any> {
-    return this.keycloak.init({
+    console.log("initializing KC...");
+    let res= await this.keycloak.init({
       adapter: 'default',
       onLoad: 'login-required',
       redirectUri: this.redirectUri,
@@ -54,6 +55,7 @@ export class KeycloakAngularCapacitorService {
       enableLogging: true,
       pkceMethod:false
     });
+    console.log("KC Initialized:",res);
   }
 
   async login(options?: KeycloakLoginOptions & { code?: string }): Promise<void> {
